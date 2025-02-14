@@ -1,4 +1,3 @@
-# REST-API-for-Movies-IMDb-like-System-
 
 # Movie API: RESTful API for Movie Management
 
