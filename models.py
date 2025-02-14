@@ -1,6 +1,9 @@
+from flask_sqlalchemy import SQLAlchemy
+
+# Import the db object
 from app import db
 
-# Movie model
+# Define the Movie model
 class Movie(db.Model):
     __tablename__ = 'movies'
 
@@ -12,7 +15,7 @@ class Movie(db.Model):
     rating = db.Column(db.Float, nullable=True)
 
     def as_dict(self):
-        """Convert model instance to a dictionary"""
+        """Convert model instance to a dictionary."""
         return {
             "id": self.id,
             "title": self.title,

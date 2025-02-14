@@ -1,16 +1,20 @@
 from flask import Blueprint, request, jsonify
-from app import db
 from models import Movie
+from app import db
 
-# Create a Flask Blueprint
+# Define the blueprint
 api_blueprint = Blueprint('api', __name__)
 
-# Add a new movie
+@api_blueprint.route('/')
+def index():
+    return jsonify({"message": "Welcome to the Movie API! Refer to the documentation for available endpoints."}), 200
+
+
+# Route to add a new movie
 @api_blueprint.route('/movies', methods=['POST'])
 def add_movie():
     data = request.get_json()
     try:
-        # Create a new movie
         movie = Movie(
             title=data['title'],
             director=data.get('director'),
@@ -24,19 +28,19 @@ def add_movie():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-# Get all movies
+# Route to get all movies
 @api_blueprint.route('/movies', methods=['GET'])
 def get_movies():
     movies = Movie.query.all()
     return jsonify([movie.as_dict() for movie in movies]), 200
 
-# Get a specific movie by ID
+# Route to get a specific movie by ID
 @api_blueprint.route('/movies/<int:movie_id>', methods=['GET'])
 def get_movie(movie_id):
     movie = Movie.query.get_or_404(movie_id)
     return jsonify(movie.as_dict()), 200
 
-# Update an existing movie
+# Route to update a movie
 @api_blueprint.route('/movies/<int:movie_id>', methods=['PUT'])
 def update_movie(movie_id):
     data = request.get_json()
@@ -52,7 +56,7 @@ def update_movie(movie_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-# Delete a movie
+# Route to delete a movie
 @api_blueprint.route('/movies/<int:movie_id>', methods=['DELETE'])
 def delete_movie(movie_id):
     movie = Movie.query.get_or_404(movie_id)
